@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FarmTrack</title>
+    <style>
+        body { margin: 0; font-family: Arial, sans-serif; background: #f5f6fa; }
+        header { background: #007bff; color: white; padding: 15px; text-align: center; }
+        nav { background: #f0f0f0; padding: 10px; text-align: center; }
+        nav a { margin: 0 10px; text-decoration: none; color: #007bff; font-weight: bold; }
+        nav a:hover { color: #0056b3; }
+        main { padding: 20px; max-width: 900px; margin: auto; }
+        footer { text-align: center; padding: 10px; background: #eaeaea; margin-top: 40px; font-size: 14px; }
+        .card { background: white; padding: 15px; border-radius: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); margin-bottom: 20px; }
+        input, select, textarea, button {
+            width: 100%; padding: 10px; margin: 8px 0;
+            border: 1px solid #ccc; border-radius: 5px;
+        }
+        button { background: #007bff; color: white; cursor: pointer; }
+        button:hover { background: #0056b3; }
+        table { width: 100%; border-collapse: collapse; margin-top: 15px; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: center; }
+        th { background-color: #007bff; color: white; }
+        @media (max-width: 600px) {
+            nav { display: flex; flex-wrap: wrap; justify-content: center; }
+            table, thead, tbody, th, td, tr { display: block; }
+            th { display: none; }
+            td { border: none; position: relative; padding-left: 50%; }
+            td::before { content: attr(data-label); position: absolute; left: 10px; font-weight: bold; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h2>FarmTrack Management System</h2>
+    </header>
+
+    <nav>
+        <a href="/fields/">Fields</a>
+        <a href="/operations/">Operations</a>
+        <a href="/expenses/">Expenses</a>
+        <a href="/sales/">Sales</a>
+        <a href="/reports/">Reports</a>
+    </nav>
+
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer>
+        FarmTrack © {{ year|default:"2025" }}
+    </footer>
+</body>
+</html>

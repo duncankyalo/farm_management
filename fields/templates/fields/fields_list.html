@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="card">
+    <h3>All Fields</h3>
+    <a href="/fields/add/"><button>Add Field</button></a>
+    <table>
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Crop Type</th>
+                <th>Area (Ha)</th>
+                <th>Location</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for field in fields %}
+            <tr>
+                <td data-label="Name">{{ field.name }}</td>
+                <td data-label="Crop Type">{{ field.crop_type }}</td>
+                <td data-label="Area">{{ field.area }}</td>
+                <td data-label="Location">{{ field.location }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

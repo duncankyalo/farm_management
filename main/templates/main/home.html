@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="text-center mb-4">FarmTrack Dashboard</h2>
+    <div class="row">
+        {% for module in modules %}
+        <div class="col-md-4 mb-3">
+            <a href="{{ module.url }}" class="text-decoration-none">
+                <div class="card text-center shadow-sm p-3">
+                    <h5 class="fw-bold">{{ module.name }}</h5>
+                </div>
+            </a>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,56 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.so
+*.egg
+*.egg-info/
+build/
+dist/
+.eggs/
+
+# Virtual environment
+venv/
+env/
+ENV/
+.venv/
+
+# Django stuff
+*.log
+*.pot
+*.pyc
+db.sqlite3
+media/
+staticfiles/
+static_root/
+local_settings.py
+
+# MySQL credentials or environment files
+.env
+*.env
+
+# IDE and OS files
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+
+# Byte-compiled / cache
+*.pyc
+__pycache__/
+
+# Migrations cache
+*/migrations/__pycache__/
+*/migrations/*.pyc
+
+# Backup files
+*.bak
+*.tmp
+
+# Reports or export data
+*.csv
+*.xlsx
+*.pdf

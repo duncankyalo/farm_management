@@ -1,0 +1,112 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="text-center mb-4">Field Report: {{ field.name }}</h2>
+
+    <form method="get" class="row g-3 mb-4">
+        <div class="col-md-5">
+            <label>Start Date</label>
+            <input type="date" name="start_date" class="form-control" value="{{ request.GET.start_date }}">
+        </div>
+        <div class="col-md-5">
+            <label>End Date</label>
+            <input type="date" name="end_date" class="form-control" value="{{ request.GET.end_date }}">
+        </div>
+        <div class="col-md-2 d-flex align-items-end">
+            <button type="submit" class="btn btn-primary w-100">Filter</button>
+        </div>
+    </form>
+
+    <div class="row mb-4">
+        <div class="col-md-6 mb-3">
+            <div class="card p-3 shadow-sm">
+                <h5 class="text-center mb-3">Expense Breakdown</h5>
+                <canvas id="expenseChart"></canvas>
+            </div>
+        </div>
+        <div class="col-md-6 mb-3">
+            <div class="card p-3 shadow-sm">
+                <h5 class="text-center mb-3">Sales Over Time</h5>
+                <canvas id="salesChart"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <div class="card shadow-sm p-4">
+        <h5 class="mb-3">Transaction Summary</h5>
+        <table class="table table-bordered table-striped">
+            <thead class="table-dark">
+                <tr>
+                    <th>Type</th>
+                    <th>Description</th>
+                    <th>Amount</th>
+                    <th>Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for e in expenses %}
+                <tr>
+                    <td>Expense</td>
+                    <td>{{ e.description }}</td>
+                    <td>{{ e.amount }}</td>
+                    <td>{{ e.date }}</td>
+                </tr>
+                {% endfor %}
+                {% for s in sales %}
+                <tr>
+                    <td>Sale</td>
+                    <td>{{ s.product }}</td>
+                    <td>{{ s.total_amount }}</td>
+                    <td>{{ s.date }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <div class="alert mt-3 {% if profit_or_loss < 0 %}alert-danger{% else %}alert-success{% endif %}">
+        <strong>Profit/Loss:</strong> {{ profit_or_loss }}
+    </div>
+</div>
+
+<!-- Chart.js -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+const expenseData = JSON.parse('{{ expenses|safe|escapejs }}');
+const salesData = JSON.parse('{{ sales|safe|escapejs }}');
+
+// Pie chart for expense breakdown
+const expenseCtx = document.getElementById('expenseChart');
+new Chart(expenseCtx, {
+    type: 'pie',
+    data: {
+        labels: expenseData.map(e => e.description),
+        datasets: [{
+            data: expenseData.map(e => e.amount),
+            backgroundColor: ['#ff6384', '#36a2eb', '#ffcd56', '#4bc0c0', '#9966ff'],
+            borderWidth: 1
+        }]
+    },
+    options: { responsive: true }
+});
+
+// Bar chart for sales over time
+const salesCtx = document.getElementById('salesChart');
+new Chart(salesCtx, {
+    type: 'bar',
+    data: {
+        labels: salesData.map(s => s.date),
+        datasets: [{
+            label: 'Sales Amount',
+            data: salesData.map(s => s.total_amount),
+            backgroundColor: '#36a2eb'
+        }]
+    },
+    options: {
+        responsive: true,
+        scales: { y: { beginAtZero: true } }
+    }
+});
+</script>
+{% endblock %}
