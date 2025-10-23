@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from .models import Field
 
+
 def field_list(request):
     """Display all fields with links to individual reports."""
     fields = Field.objects.all().order_by('name')
@@ -59,3 +60,29 @@ def field_delete(request, id):
     field.delete()
     messages.info(request, 'Field deleted successfully.')
     return redirect('field_list')
+
+
+def field_report(request, id):
+    """Display detailed report for a specific field."""
+    field = get_object_or_404(Field, id=id)
+
+    # Example data aggregation (adjust based on your models)
+    expenses = Expense.objects.filter(field=field)
+    yields = Yield.objects.filter(field=field)
+    weather = Weather.objects.filter(field=field)
+
+    total_expenses = sum(e.amount for e in expenses)
+    total_yield = sum(y.amount for y in yields)
+    profit = total_yield - total_expenses
+
+    context = {
+        'field': field,
+        'expenses': expenses,
+        'yields': yields,
+        'weather': weather,
+        'total_expenses': total_expenses,
+        'total_yield': total_yield,
+        'profit': profit,
+    }
+
+    return render(request, 'fields/field_report.html', context)

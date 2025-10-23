@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% block title %}Operations{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2 class="text-center mb-4">Farm Operations</h2>
+
+    <div class="text-end mb-3">
+        <a href="{% url 'operation_add' %}" class="btn btn-primary">Add Operation</a>
+    </div>
+
+    {% if operations %}
+        <table class="table table-bordered table-hover align-middle">
+            <thead class="table-light">
+                <tr>
+                    <th>Field</th>
+                    <th>Operation Type</th>
+                    <th>Date</th>
+                    <th>Cost (KSH)</th>
+                    <th>Notes</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for op in operations %}
+                <tr>
+                    <td>{{ op.field.name }}</td>
+                    <td>{{ op.operation_type }}</td>
+                    <td>{{ op.date|date:"Y-m-d" }}</td>
+                    <td>{{ op.cost }}</td>
+                    <td>{{ op.notes|default:"-" }}</td>
+                    <td>
+                        <a href="{% url 'operation_edit' op.id %}" class="btn btn-sm btn-warning">Edit</a>
+                        <a href="{% url 'operation_delete' op.id %}" class="btn btn-sm btn-danger">Delete</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <div class="alert alert-info text-center">No operations recorded yet.</div>
+    {% endif %}
+</div>
+{% endblock %}

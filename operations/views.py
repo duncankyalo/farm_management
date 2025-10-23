@@ -4,7 +4,7 @@ from fields.models import Field
 from django.contrib import messages
 
 def operation_list(request):
-    operations = Operation.objects.select_related('field').all()
+    operations = Operation.objects.select_related('field').all().order_by('-date')
     return render(request, 'operations/operation_list.html', {'operations': operations})
 
 def operation_add(request):

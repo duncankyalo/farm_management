@@ -1,6 +1,6 @@
 from django.urls import path
 from . import views
-from reports import views as report_views  # for field-specific report links
+from reports import views as report_views  # use report view from reports app
 
 urlpatterns = [
     path('', views.field_list, name='field_list'),

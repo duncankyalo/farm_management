@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% block title %}Add Operation{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2 class="text-center mb-4">Add Operation</h2>
+
+    <form method="post" class="card p-4 shadow-sm">
+        {% csrf_token %}
+        <div class="mb-3">
+            <label class="form-label">Field</label>
+            <select name="field" class="form-select" required>
+                {% for field in fields %}
+                    <option value="{{ field.id }}">{{ field.name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Operation Type</label>
+            <input type="text" name="operation_type" class="form-control" placeholder="e.g. Plowing" required>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Date</label>
+            <input type="date" name="date" class="form-control" required>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Cost (KSH)</label>
+            <input type="number" name="cost" class="form-control" placeholder="e.g. 2500" required>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Notes</label>
+            <textarea name="notes" class="form-control" rows="3" placeholder="Optional notes..."></textarea>
+        </div>
+
+        <button type="submit" class="btn btn-success w-100">Save Operation</button>
+    </form>
+</div>
+{% endblock %}

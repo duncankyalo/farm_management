@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% block title %}Edit Operation{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2 class="text-center mb-4">Edit Operation</h2>
+
+    <form method="post" class="card p-4 shadow-sm">
+        {% csrf_token %}
+        <div class="mb-3">
+            <label class="form-label">Field</label>
+            <select name="field" class="form-select" required>
+                {% for field in fields %}
+                    <option value="{{ field.id }}" {% if field.id == operation.field.id %}selected{% endif %}>{{ field.name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Operation Type</label>
+            <input type="text" name="operation_type" value="{{ operation.operation_type }}" class="form-control" required>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Date</label>
+            <input type="date" name="date" value="{{ operation.date|date:'Y-m-d' }}" class="form-control" required>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Cost (KSH)</label>
+            <input type="number" name="cost" value="{{ operation.cost }}" class="form-control" required>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Notes</label>
+            <textarea name="notes" class="form-control" rows="3">{{ operation.notes }}</textarea>
+        </div>
+
+        <button type="submit" class="btn btn-success w-100">Update Operation</button>
+    </form>
+</div>
+{% endblock %}

@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Add New Field</h2>
+
+<form method="post">
+    {% csrf_token %}
+    <label>Name:</label>
+    <input type="text" name="name" required><br>
+
+    <label>Size (acres):</label>
+    <input type="number" step="0.01" name="size_acres" required><br>
+
+    <label>Location:</label>
+    <input type="text" name="location"><br>
+
+    <label>Crop Type:</label>
+    <input type="text" name="crop_type" required><br>
+
+    <label>Date Planted:</label>
+    <input type="date" name="date_planted"><br>
+
+    <button type="submit">Save Field</button>
+</form>
+
+<a href="{% url 'field_list' %}">Back to Field List</a>
+{% endblock %}

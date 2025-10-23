@@ -7,3 +7,4 @@ urlpatterns = [
     path('<int:id>/edit/', views.operation_edit, name='operation_edit'),
     path('<int:id>/delete/', views.operation_delete, name='operation_delete'),
 ]
+
