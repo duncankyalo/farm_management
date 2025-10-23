@@ -15,7 +15,8 @@ SECRET_KEY = 'django-insecure-+&*ld5_gyj*&%^w*#k0mn!@$gt8tir36oe@+@!7t3l67+&18l#
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['farmtrack.onrender.com']
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost', '.onrender.com']
+
 
 
 # Application definition
@@ -37,8 +38,6 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
-    'django.middleware.security.SecurityMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -72,15 +71,15 @@ WSGI_APPLICATION = 'farmtrack.wsgi.application'
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
 DATABASES = {
-    'default': dj_database_url.config(default='sqlite:///db.sqlite3')
-    # 'default': {
-    #     # 'ENGINE': 'django.db.backends.mysql',
-    #     # 'NAME': 'farmtrack_db',
-    #     # 'USER': 'root',
-    #     # 'PASSWORD': 'D.kivindyo1',
-    #     # 'HOST': 'localhost',
-    #     # 'PORT': '3306',
-    # }
+    # 'default': dj_database_url.config(default='sqlite:///db.sqlite3')
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'farmtrack_db',
+        'USER': 'root',
+        'PASSWORD': 'D.kivindyo1',
+        'HOST': 'localhost',
+        'PORT': '3306',
+    }
 }
 
 
