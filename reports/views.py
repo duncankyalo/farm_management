@@ -1,3 +1,4 @@
+import json
 from django.shortcuts import render, get_object_or_404
 from fields.models import Field
 from expenses.models import Expense
@@ -28,21 +29,26 @@ def report_dashboard(request):
             expenses_qs = expenses_qs.filter(date__range=[start_date, end_date])
             sales_qs = sales_qs.filter(date__range=[start_date, end_date])
 
-        total_exp = sum(e.amount for e in expenses_qs)
-        total_rev = sum(s.total_amount() for s in sales_qs)
+        total_exp = float(sum(e.amount for e in expenses_qs))
+        total_rev = float(sum(s.total_amount() for s in sales_qs))
         profit = total_rev - total_exp
 
         reports.append({
+            'id': field.id,
             'field': field.name,
             'total_expenses': total_exp,
             'total_sales': total_rev,
             'profit_or_loss': profit
         })
 
+    # Serialize reports for JavaScript
+    reports_json = json.dumps(reports)
+
     context = {
         'form': form,
         'summary': summary,
         'reports': reports,
+        'reports_json': reports_json,
     }
     return render(request, 'reports/report_dashboard.html', context)
 
@@ -52,15 +58,17 @@ def field_report(request, id):
     expenses = Expense.objects.filter(field=field)
     sales = Sale.objects.filter(field=field)
 
-    total_exp = sum(e.amount for e in expenses)
-    total_rev = sum(s.total_amount() for s in sales)
+    total_exp = float(sum(e.amount for e in expenses))
+    total_rev = float(sum(s.total_amount() for s in sales))
     profit = total_rev - total_exp
 
-    return render(request, 'reports/field_report.html', {
+    context = {
         'field': field,
         'expenses': expenses,
         'sales': sales,
         'total_expenses': total_exp,
         'total_sales': total_rev,
         'profit_or_loss': profit,
-    })
+    }
+
+    return render(request, 'reports/field_report.html', context)

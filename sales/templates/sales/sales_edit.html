@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container mt-4">
+    <h2 class="mb-3">Edit Sale</h2>
+
+    <form method="POST" class="card p-3 shadow-sm">
+        {% csrf_token %}
+
+        <div class="mb-3">
+            <label for="field" class="form-label">Field</label>
+            <select name="field" id="field" class="form-select" required>
+                {% for field in fields %}
+                    <option value="{{ field.id }}" {% if sale.field.id == field.id %}selected{% endif %}>{{ field.name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <label for="produce_name" class="form-label">Produce Name</label>
+            <input type="text" name="produce_name" id="produce_name" class="form-control" value="{{ sale.produce_name }}" required>
+        </div>
+
+        <div class="mb-3">
+            <label for="quantity" class="form-label">Quantity (kg)</label>
+            <input type="number" name="quantity" id="quantity" step="0.01" class="form-control" value="{{ sale.quantity }}" required>
+        </div>
+
+        <div class="mb-3">
+            <label for="unit_price" class="form-label">Unit Price</label>
+            <input type="number" name="unit_price" id="unit_price" step="0.01" class="form-control" value="{{ sale.unit_price }}" required>
+        </div>
+
+        <div class="mb-3">
+            <label for="date" class="form-label">Date</label>
+            <input type="date" name="date" id="date" class="form-control" value="{{ sale.date }}" required>
+        </div>
+
+        <button type="submit" class="btn btn-success">Update Sale</button>
+        <a href="{% url 'sales_list' %}" class="btn btn-secondary">Cancel</a>
+    </form>
+</div>
+{% endblock %}

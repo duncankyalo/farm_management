@@ -3,37 +3,166 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FarmTrack</title>
+    <title>KYALO FarmTrack</title>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=Montserrat:wght@600&display=swap" rel="stylesheet">
+
+    <!-- Basic Styles -->
     <style>
-        body { margin: 0; font-family: Arial, sans-serif; background: #f5f6fa; }
-        header { background: #007bff; color: white; padding: 15px; text-align: center; }
-        nav { background: #f0f0f0; padding: 10px; text-align: center; }
-        nav a { margin: 0 10px; text-decoration: none; color: #007bff; font-weight: bold; }
-        nav a:hover { color: #0056b3; }
-        main { padding: 20px; max-width: 900px; margin: auto; }
-        footer { text-align: center; padding: 10px; background: #eaeaea; margin-top: 40px; font-size: 14px; }
-        .card { background: white; padding: 15px; border-radius: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); margin-bottom: 20px; }
-        input, select, textarea, button {
-            width: 100%; padding: 10px; margin: 8px 0;
-            border: 1px solid #ccc; border-radius: 5px;
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body { 
+            font-family: 'Roboto', sans-serif; 
+            background: #bbc4dd; 
+            color: #333;
+            line-height: 1.6;
         }
-        button { background: #007bff; color: white; cursor: pointer; }
-        button:hover { background: #0056b3; }
-        table { width: 100%; border-collapse: collapse; margin-top: 15px; }
-        th, td { border: 1px solid #ddd; padding: 8px; text-align: center; }
-        th { background-color: #007bff; color: white; }
-        @media (max-width: 600px) {
-            nav { display: flex; flex-wrap: wrap; justify-content: center; }
-            table, thead, tbody, th, td, tr { display: block; }
+
+        header {
+            background: linear-gradient(135deg, #28a745, #007bff);
+            color: white; 
+            padding: 20px; 
+            text-align: center; 
+            font-family: 'Montserrat', sans-serif;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        nav {
+            background: #ffffff;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            padding: 12px 0;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+
+        nav a {
+            margin: 8px 15px;
+            text-decoration: none;
+            color: #007bff;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        nav a:hover {
+            color: #0056b3;
+            transform: scale(1.05);
+        }
+
+        main {
+            padding: 20px;
+            max-width: 1200px;
+            margin: auto;
+        }
+
+        .card {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.08);
+            padding: 20px;
+            margin-bottom: 25px;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 15px rgba(0,0,0,0.12);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: center;
+        }
+
+        th {
+            background: #007bff;
+            color: white;
+            font-weight: 600;
+        }
+
+        input, select, textarea, button {
+            width: 100%; 
+            padding: 10px; 
+            margin: 8px 0; 
+            border: 1px solid #ccc; 
+            border-radius: 6px;
+            font-size: 14px;
+        }
+
+        button {
+            background: #28a745;
+            color: white;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background 0.3s ease, transform 0.2s ease;
+        }
+
+        button:hover {
+            background: #218838;
+            transform: scale(1.03);
+        }
+
+        footer {
+            text-align: center;
+            padding: 15px;
+            background: #eaeaea;
+            margin-top: 40px;
+            font-size: 14px;
+            color: #555;
+        }
+
+        /* Responsive Table for mobile */
+        @media (max-width: 768px) {
+            table, thead, tbody, th, td, tr {
+                display: block;
+            }
             th { display: none; }
-            td { border: none; position: relative; padding-left: 50%; }
-            td::before { content: attr(data-label); position: absolute; left: 10px; font-weight: bold; }
+            td { 
+                border: none; 
+                position: relative; 
+                padding-left: 50%; 
+                text-align: left;
+            }
+            td::before {
+                content: attr(data-label);
+                position: absolute;
+                left: 15px;
+                font-weight: 600;
+                color: #007bff;
+            }
+        }
+
+        /* Small animation for headings */
+        h2, h3, h4 {
+            margin-bottom: 15px;
+            color: #333;
+            letter-spacing: 0.5px;
+            position: relative;
+        }
+
+        h2::after, h3::after {
+            content: '';
+            width: 50px;
+            height: 3px;
+            background: #28a745;
+            display: block;
+            margin-top: 5px;
+            border-radius: 2px;
         }
     </style>
 </head>
 <body>
+
     <header>
-        <h2>FarmTrack Management System</h2>
+        <h2>EK FarmTrack Management System</h2>
     </header>
 
     <nav>
@@ -51,5 +180,6 @@
     <footer>
         FarmTrack © {{ year|default:"2025" }}
     </footer>
+
 </body>
 </html>

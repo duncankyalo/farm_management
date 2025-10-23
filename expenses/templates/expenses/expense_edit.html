@@ -1,9 +1,9 @@
 {% extends 'base.html' %}
-{% block title %}Add Expense{% endblock %}
+{% block title %}Edit Expense{% endblock %}
 
 {% block content %}
 <div class="container mt-4">
-    <h2 class="text-center mb-4">Add Expense</h2>
+    <h2 class="text-center mb-4">Edit Expense</h2>
 
     <form method="POST">
         {% csrf_token %}
@@ -12,33 +12,35 @@
             <select name="field" id="field" class="form-select" required>
                 <option value="">Select Field</option>
                 {% for field in fields %}
-                <option value="{{ field.id }}">{{ field.name }}</option>
+                <option value="{{ field.id }}" {% if expense.field.id == field.id %}selected{% endif %}>
+                    {{ field.name }}
+                </option>
                 {% endfor %}
             </select>
         </div>
 
         <div class="mb-3">
             <label for="category" class="form-label">Category</label>
-            <input type="text" name="category" id="category" class="form-control" required>
+            <input type="text" name="category" id="category" class="form-control" value="{{ expense.category }}" required>
         </div>
 
         <div class="mb-3">
             <label for="amount" class="form-label">Amount</label>
-            <input type="number" name="amount" id="amount" class="form-control" required>
+            <input type="number" name="amount" id="amount" class="form-control" value="{{ expense.amount }}" required>
         </div>
 
         <div class="mb-3">
             <label for="date" class="form-label">Date</label>
-            <input type="date" name="date" id="date" class="form-control" required>
+            <input type="date" name="date" id="date" class="form-control" value="{{ expense.date|date:'Y-m-d' }}" required>
         </div>
 
         <div class="mb-3">
             <label for="description" class="form-label">Description</label>
-            <textarea name="description" id="description" class="form-control"></textarea>
+            <textarea name="description" id="description" class="form-control">{{ expense.description }}</textarea>
         </div>
 
         <div class="text-end">
-            <button type="submit" class="btn btn-success">Save Expense</button>
+            <button type="submit" class="btn btn-success">Update Expense</button>
             <a href="{% url 'expense_list' %}" class="btn btn-secondary">Cancel</a>
         </div>
     </form>

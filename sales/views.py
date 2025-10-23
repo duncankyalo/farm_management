@@ -5,8 +5,8 @@ from django.contrib import messages
 
 def sales_list(request):
     sales = Sale.objects.select_related('field').all()
-    total_revenue = sum(s.total_amount() for s in sales)
-    return render(request, 'sales/sales_list.html', {'sales': sales, 'total_revenue': total_revenue})
+    total_sales = sum(sale.total_amount() for sale in sales)
+    return render(request, 'sales/sales_list.html', {'sales': sales, 'total_sales': total_sales})
 
 def sales_add(request):
     fields = Field.objects.all()
@@ -18,7 +18,7 @@ def sales_add(request):
             unit_price=request.POST['unit_price'],
             date=request.POST['date']
         )
-        messages.success(request, 'Sale added')
+        messages.success(request, 'Sale recorded')
         return redirect('sales_list')
     return render(request, 'sales/sales_add.html', {'fields': fields})
 
@@ -38,6 +38,8 @@ def sales_edit(request, id):
 
 def sales_delete(request, id):
     sale = get_object_or_404(Sale, id=id)
-    sale.delete()
-    messages.info(request, 'Sale deleted')
-    return redirect('sales_list')
+    if request.method == 'POST':
+        sale.delete()
+        messages.info(request, 'Sale deleted')
+        return redirect('sales_list')
+    return render(request, 'sales/sales_delete.html', {'sale': sale})

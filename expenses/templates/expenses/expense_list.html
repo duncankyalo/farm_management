@@ -1,35 +1,45 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Expenses List</title>
-</head>
-<body>
-    <h1>Expenses</h1>
-    <a href="{% url 'expense_add' %}">Add Expense</a>
-    <table border="1">
-        <tr>
-            <th>ID</th>
-            <th>Description</th>
-            <th>Amount</th>
-            <th>Date</th>
-            <th>Actions</th>
-        </tr>
-        {% for expense in expenses %}
-        <tr>
-            <td>{{ expense.id }}</td>
-            <td>{{ expense.description }}</td>
-            <td>{{ expense.amount }}</td>
-            <td>{{ expense.date }}</td>
-            <td>
-                <a href="{% url 'expense_edit' expense.id %}">Edit</a>
-                <a href="{% url 'expense_delete' expense.id %}">Delete</a>
-            </td>
-        </tr>
-        {% empty %}
-        <tr>
-            <td colspan="5">No expenses found.</td>
-        </tr>
-        {% endfor %}
-    </table>
-</body>
-</html>
+{% extends 'base.html' %}
+{% block title %}Expenses{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2 class="text-center mb-4">Expenses</h2>
+
+    <div class="text-end mb-3">
+        <a href="{% url 'expense_add' %}" class="btn btn-primary">Add Expense</a>
+    </div>
+
+    {% if expenses %}
+        <table class="table table-bordered table-hover align-middle">
+            <thead class="table-light">
+                <tr>
+                    <th>Field</th>
+                    <th>Category</th>
+                    <th>Amount (KSH)</th>
+                    <th>Date</th>
+                    <th>Description</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for exp in expenses %}
+                <tr>
+                    <td>{{ exp.field.name }}</td>
+                    <td>{{ exp.category }}</td>
+                    <td>{{ exp.amount }}</td>
+                    <td>{{ exp.date|date:"Y-m-d" }}</td>
+                    <td>{{ exp.description|default:"-" }}</td>
+                    <td>
+                        <a href="{% url 'expense_edit' exp.id %}" class="btn btn-sm btn-warning">Edit</a>
+                        <a href="{% url 'expense_delete' exp.id %}" class="btn btn-sm btn-danger">Delete</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <div class="mt-2 fw-bold">Total Expenses: KSH {{ total_expenses }}</div>
+    {% else %}
+        <div class="alert alert-info text-center">No expenses recorded yet.</div>
+    {% endif %}
+</div>
+{% endblock %}

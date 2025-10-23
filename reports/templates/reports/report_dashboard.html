@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+<h2>Financial Dashboard</h2>
+
+<form method="get" class="mb-4">
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-primary">Filter</button>
+</form>
+
+<h4>Summary</h4>
+<ul>
+    <li>Total Sales: {{ summary.total_sales }}</li>
+    <li>Total Expenses: {{ summary.total_expenses }}</li>
+    <li>Profit/Loss: {{ summary.profit }} ({{ summary.status }})</li>
+</ul>
+
+<h4>Field Reports</h4>
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Field</th>
+            <th>Total Expenses</th>
+            <th>Total Sales</th>
+            <th>Profit/Loss</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for r in reports %}
+        <tr>
+            <td>{{ r.field }}</td>
+            <td>{{ r.total_expenses }}</td>
+            <td>{{ r.total_sales }}</td>
+            <td>{{ r.profit_or_loss }}</td>
+            <td>
+                {% if r.id %}
+                <a href="{% url 'field_report' r.id %}" class="btn btn-sm btn-primary">View</a>
+                {% else %}
+                -
+                {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<h4>Charts</h4>
+<canvas id="financeChart" height="100"></canvas>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+const reportsData = {{ reports_json|safe }};
+
+// Extract labels and datasets
+const labels = reportsData.map(r => r.field);
+const salesData = reportsData.map(r => r.total_sales || 0);
+const expensesData = reportsData.map(r => r.total_expenses || 0);
+const profitData = reportsData.map(r => r.profit_or_loss || 0);
+
+const ctx = document.getElementById('financeChart').getContext('2d');
+const financeChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+        labels: labels,
+        datasets: [
+            { label: 'Sales', data: salesData, backgroundColor: 'rgba(54, 162, 235, 0.6)' },
+            { label: 'Expenses', data: expensesData, backgroundColor: 'rgba(255, 99, 132, 0.6)' },
+            { label: 'Profit/Loss', data: profitData, backgroundColor: 'rgba(75, 192, 192, 0.6)' }
+        ]
+    },
+    options: {
+        responsive: true,
+        plugins: {
+            legend: { position: 'top' },
+            title: { display: true, text: 'Field Financial Overview' }
+        }
+    }
+});
+</script>
+{% endblock %}

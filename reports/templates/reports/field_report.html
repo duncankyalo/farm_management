@@ -1,0 +1,97 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+<h2>Field Report: {{ field.name }}</h2>
+
+<h4>Summary</h4>
+<ul>
+    <li>Total Sales: {{ total_sales }}</li>
+    <li>Total Expenses: {{ total_expenses }}</li>
+    <li>Profit/Loss: {{ profit_or_loss }}</li>
+</ul>
+
+<h4>Sales Details</h4>
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Produce Name</th>
+            <th>Quantity</th>
+            <th>Unit Price</th>
+            <th>Total Amount</th>
+            <th>Date</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for s in sales %}
+        <tr>
+            <td>{{ s.produce_name }}</td>
+            <td>{{ s.quantity }}</td>
+            <td>{{ s.unit_price }}</td>
+            <td>{{ s.total_amount }}</td>
+            <td>{{ s.date }}</td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="5">No sales recorded</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<h4>Expenses Details</h4>
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Description</th>
+            <th>Amount</th>
+            <th>Date</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for e in expenses %}
+        <tr>
+            <td>{{ e.description }}</td>
+            <td>{{ e.amount }}</td>
+            <td>{{ e.date }}</td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="3">No expenses recorded</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<h4>Financial Overview</h4>
+<canvas id="fieldChart" height="100"></canvas>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+const labels = ['Sales', 'Expenses', 'Profit/Loss'];
+const data = [{{ total_sales }}, {{ total_expenses }}, {{ profit_or_loss }}];
+
+const ctx = document.getElementById('fieldChart').getContext('2d');
+const fieldChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+        labels: labels,
+        datasets: [{
+            label: 'Amount',
+            data: data,
+            backgroundColor: [
+                'rgba(54, 162, 235, 0.6)',
+                'rgba(255, 99, 132, 0.6)',
+                'rgba(75, 192, 192, 0.6)'
+            ]
+        }]
+    },
+    options: {
+        responsive: true,
+        plugins: {
+            legend: { display: false },
+            title: { display: true, text: 'Financial Overview for {{ field.name }}' }
+        }
+    }
+});
+</script>
+{% endblock %}

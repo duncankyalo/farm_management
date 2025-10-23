@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% block title %}Sales{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2 class="text-center mb-4">Farm Sales</h2>
+
+    <div class="text-end mb-3">
+        <a href="{% url 'sales_add' %}" class="btn btn-primary">Add Sale</a>
+    </div>
+
+    {% if sales %}
+        <table class="table table-bordered table-hover align-middle">
+            <thead class="table-light">
+                <tr>
+                    <th>Field</th>
+                    <th>Produce</th>
+                    <th>Quantity (kg)</th>
+                    <th>Unit Price</th>
+                    <th>Total Amount</th>
+                    <th>Date</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for sale in sales %}
+                <tr>
+                    <td>{{ sale.field.name }}</td>
+                    <td>{{ sale.produce_name }}</td>
+                    <td>{{ sale.quantity }}</td>
+                    <td>{{ sale.unit_price }}</td>
+                    <td>{{ sale.total_amount }}</td>
+                    <td>{{ sale.date|date:"Y-m-d" }}</td>
+                    <td>
+                        <a href="{% url 'sales_edit' sale.id %}" class="btn btn-sm btn-warning">Edit</a>
+                        <a href="{% url 'sales_delete' sale.id %}" class="btn btn-sm btn-danger">Delete</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <div class="alert alert-info text-center">No sales recorded yet.</div>
+    {% endif %}
+</div>
+{% endblock %}
