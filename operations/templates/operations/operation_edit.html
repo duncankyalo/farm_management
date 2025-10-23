@@ -1,42 +1,36 @@
 {% extends 'base.html' %}
-{% block title %}Edit Operation{% endblock %}
-
 {% block content %}
-<div class="container mt-4">
-    <h2 class="text-center mb-4">Edit Operation</h2>
+<h2>Edit Operation</h2>
+<form method="post">
+    {% csrf_token %}
+    <label>Field:</label>
+    <select name="field" required>
+        {% for field in fields %}
+            <option value="{{ field.id }}" {% if field.id == operation.field.id %}selected{% endif %}>{{ field.name }}</option>
+        {% endfor %}
+    </select><br>
 
-    <form method="post" class="card p-4 shadow-sm">
-        {% csrf_token %}
-        <div class="mb-3">
-            <label class="form-label">Field</label>
-            <select name="field" class="form-select" required>
-                {% for field in fields %}
-                    <option value="{{ field.id }}" {% if field.id == operation.field.id %}selected{% endif %}>{{ field.name }}</option>
-                {% endfor %}
-            </select>
-        </div>
+    <label>Operation Type:</label>
+    <input type="text" name="operation_type" value="{{ operation.operation_type }}" required><br>
 
-        <div class="mb-3">
-            <label class="form-label">Operation Type</label>
-            <input type="text" name="operation_type" value="{{ operation.operation_type }}" class="form-control" required>
-        </div>
+    <label>Date:</label>
+    <input type="date" name="date" value="{{ operation.date|default:'' }}" required>
 
-        <div class="mb-3">
-            <label class="form-label">Date</label>
-            <input type="date" name="date" value="{{ operation.date|date:'Y-m-d' }}" class="form-control" required>
-        </div>
 
-        <div class="mb-3">
-            <label class="form-label">Cost (KSH)</label>
-            <input type="number" name="cost" value="{{ operation.cost }}" class="form-control" required>
-        </div>
+    <label>Worker Name:</label>
+    <input type="text" name="worker_name" value="{{ operation.worker_name }}"><br>
 
-        <div class="mb-3">
-            <label class="form-label">Notes</label>
-            <textarea name="notes" class="form-control" rows="3">{{ operation.notes }}</textarea>
-        </div>
+    <label>Hours Spent:</label>
+    <input type="number" step="0.01" name="hours_spent" value="{{ operation.hours_spent }}"><br>
 
-        <button type="submit" class="btn btn-success w-100">Update Operation</button>
-    </form>
-</div>
+    <label>Cost:</label>
+    <input type="number" step="0.01" name="cost" value="{{ operation.cost }}"><br>
+
+    <label>Notes:</label>
+    <textarea name="notes">{{ operation.notes }}</textarea><br>
+
+    <button type="submit">Update Operation</button>
+</form>
+
+<a href="{% url 'operation_list' %}">Back to Operation List</a>
 {% endblock %}

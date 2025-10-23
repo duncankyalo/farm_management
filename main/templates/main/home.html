@@ -2,17 +2,65 @@
 
 {% block content %}
 <div class="container mt-5">
-    <h2 class="text-center mb-4">KYALO FarmTrack </h2>
+
+    <!-- Hero Image -->
+    <div class="text-center mb-5">
+        <img src="/static/images/farm.jpg" 
+             alt="KYALO Farm" 
+             class="img-fluid rounded shadow" 
+             style="max-height: 400px; object-fit: cover; width: 100%;">
+    </div>
+
+    <h2 class="text-center mb-4">Welcome to KYALO FarmTrack</h2>
+
+    <!-- About Section -->
+    <div class="mb-5">
+        <h4>About</h4>
+        <p>
+            KYALO FarmTrack is a modern farm management system designed to help farmers track operations, sales, expenses, and overall productivity.
+            We combine smart agriculture practices with easy-to-use digital tools to improve efficiency and profitability.
+        </p>
+    </div>
+
+    <!-- Location Section -->
+    <div class="mb-5">
+        <h4>Location</h4>
+        <p>
+            We operate in Taita_taveta County, Kenya, providing services to farms of all sizes in the region.
+            Our team is dedicated to supporting local farmers with practical solutions.
+        </p>
+    </div>
+
+    <!-- What We Do Section -->
+    <div class="mb-5">
+        <h4>What We Do</h4>
+        <ul>
+            <li>Track field operations, expenses, and sales</li>
+            <li>Generate detailed financial reports</li>
+            <li>Monitor crop growth and harvest cycles</li>
+            <li>Provide insights for better farm decision-making</li>
+        </ul>
+    </div>
+
+    <!-- Modules Section -->
     <div class="row">
         {% for module in modules %}
         <div class="col-md-4 mb-3">
             <a href="{{ module.url }}" class="text-decoration-none">
-                <div class="card text-center shadow-sm p-3">
+                <div class="card text-center shadow-sm p-3 hover-shadow" style="transition: transform 0.3s;">
                     <h5 class="fw-bold">{{ module.name }}</h5>
                 </div>
             </a>
         </div>
         {% endfor %}
     </div>
+
 </div>
+
+<style>
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+}
+</style>
 {% endblock %}

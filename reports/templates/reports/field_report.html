@@ -6,7 +6,7 @@
 <h4>Summary</h4>
 <ul>
     <li>Total Sales: {{ total_sales }}</li>
-    <li>Total Expenses: {{ total_expenses }}</li>
+    <li>Total Expenses (including operations): {{ total_expenses }}</li>
     <li>Profit/Loss: {{ profit_or_loss }}</li>
 </ul>
 
@@ -54,9 +54,16 @@
             <td>{{ e.amount }}</td>
             <td>{{ e.date }}</td>
         </tr>
+        {% endfor %}
+        {% for o in operations %}
+        <tr>
+            <td>Operation: {{ o.operation_type }}</td>
+            <td>{{ o.cost }}</td>
+            <td>{{ o.date }}</td>
+        </tr>
         {% empty %}
         <tr>
-            <td colspan="3">No expenses recorded</td>
+            <td colspan="3">No expenses or operations recorded</td>
         </tr>
         {% endfor %}
     </tbody>

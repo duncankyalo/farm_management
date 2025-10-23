@@ -1,42 +1,26 @@
 {% extends 'base.html' %}
 {% block content %}
-<div class="card p-4">
-    <h3>Edit Field</h3>
-    <form method="POST">
-        {% csrf_token %}
-        <div class="mb-3">
-            {{ form.name.label_tag }}
-            {{ form.name }}
-            {% if form.name.errors %}
-                <div class="text-danger">{{ form.name.errors }}</div>
-            {% endif %}
-        </div>
+<h2>Edit Field: {{ field.name }}</h2>
 
-        <div class="mb-3">
-            {{ form.crop_type.label_tag }}
-            {{ form.crop_type }}
-            {% if form.crop_type.errors %}
-                <div class="text-danger">{{ form.crop_type.errors }}</div>
-            {% endif %}
-        </div>
+<form method="post">
+    {% csrf_token %}
+    <label>Name:</label>
+    <input type="text" name="name" value="{{ field.name }}" required><br>
 
-        <div class="mb-3">
-            {{ form.area.label_tag }}
-            {{ form.area }}
-            {% if form.area.errors %}
-                <div class="text-danger">{{ form.area.errors }}</div>
-            {% endif %}
-        </div>
+    <label>Size (acres):</label>
+    <input type="number" step="0.01" name="size_acres" value="{{ field.size_acres }}" required><br>
 
-        <div class="mb-3">
-            {{ form.location.label_tag }}
-            {{ form.location }}
-            {% if form.location.errors %}
-                <div class="text-danger">{{ form.location.errors }}</div>
-            {% endif %}
-        </div>
+    <label>Location:</label>
+    <input type="text" name="location" value="{{ field.location }}"><br>
 
-        <button type="submit" class="btn btn-success">Update Field</button>
-    </form>
-</div>
+    <label>Crop Type:</label>
+    <input type="text" name="crop_type" value="{{ field.crop_type }}" required><br>
+
+    <label>Date Planted:</label>
+    <input type="date" name="date_planted" value="{{ field.date_planted|date:'Y-m-d' }}"><br>
+
+    <button type="submit">Update Field</button>
+</form>
+
+<a href="{% url 'field_list' %}">Back to Field List</a>
 {% endblock %}
